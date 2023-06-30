@@ -41,7 +41,9 @@ contract KittyTokenTest is Test {
         vm.prank(kitty);
         kittyToken.approve(doggie, initAllowance);
 
-        vm.expectRevert("ERC20: insufficient allowance");
+        vm.expectRevert(
+            abi.encodeWithSignature("ERC20InsufficientAllowance(address,uint256,uint256)", doggie, initAllowance, initAllowance + 1)
+        );
         vm.prank(doggie);
         kittyToken.transferFrom(kitty, doggie, initAllowance + 1);
     }
@@ -60,7 +62,9 @@ contract KittyTokenTest is Test {
     function test_Transfer_Reverts_SenderHasNotEnoughBalance() public {
         vm.prank(kitty);
 
-        vm.expectRevert("ERC20: transfer amount exceeds balance");
+        vm.expectRevert(
+            abi.encodeWithSignature("ERC20InsufficientBalance(address,uint256,uint256)", kitty, START_BALANCE, START_BALANCE + 1)
+        );
         kittyToken.transfer(doggie, START_BALANCE + 1);
     }
 
@@ -71,7 +75,9 @@ contract KittyTokenTest is Test {
         kittyToken.approve(doggie, HIGH_BALANCE);
 
         vm.prank(doggie);
-        vm.expectRevert("ERC20: transfer amount exceeds balance");
+        vm.expectRevert(
+            abi.encodeWithSignature("ERC20InsufficientBalance(address,uint256,uint256)", kitty, START_BALANCE, HIGH_BALANCE)
+        );
         kittyToken.transferFrom(kitty, doggie, HIGH_BALANCE);
     }
 }
