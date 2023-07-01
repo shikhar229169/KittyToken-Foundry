@@ -14,11 +14,6 @@ forge build
 anvil
 ```
 
-## Chainlink-Library
-```
-forge install smartcontractkit/chainlink-brownie-contracts@0.6.1 --no-commit
-```
-
 ## Deploy on Mumbai Network
 ```
 forge script script/DeployKittyToken.s.sol --rpc-url $MUMBAI_RPC_URL --private-key $PRIVATE_KEY --verify --etherscan-api-key $POLYGONSCAN_API_KEY --broadcast
